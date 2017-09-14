@@ -26,6 +26,8 @@ class Post(models.Model):
 
     author = models.ForeignKey(User)
 
+    #看不到的属性comment_set
+
     #获取绝对路径
     def get_absolute_url(self):
         return reverse('blog:detail',kwargs={'pk':self.pk})

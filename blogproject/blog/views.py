@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse
 from .models import Post
+from comment.forms import CommentForm
 # Create your views here.
 import markdown
 def index(request):
@@ -15,7 +16,14 @@ def detail(request,pk):
         'markdown.extensions.codehilite',
         'markdown.extensions.toc',
     ])
-    return render(request,'blog/detail.html',context={'post': post})
+    form = CommentForm()
+    comment_list = post.comment_set.all()
+    context = {
+        'post':post,
+        'form':form,
+        'comment_list':comment_list
+    }
+    return render(request,'blog/detail.html',context=context)
 
 def archives(request,year,month):
     post_list = Post.objects.filter(created_time__year = year,created_time__month = month).order_by('-created_time')

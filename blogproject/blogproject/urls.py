@@ -18,8 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-url(r'',include('blog.urls')),
+    url(r'',include('blog.urls')),
     # url(r'^blog/',include('blog.urls')),#所有blog/urls.py里的路由都有‘blog/’前缀
-
+    url(r'',include('comment.urls')),
 
 ]

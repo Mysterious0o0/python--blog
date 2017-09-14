@@ -1,6 +1,6 @@
 from django import forms
 from .models import Comment
 class CommentForm(forms.ModelForm):
-    class Meat:
+    class Meta:#元标签
         model = Comment
-        fieds = ['name','email','url','text']
+        fields = ['name','email','url','text']
