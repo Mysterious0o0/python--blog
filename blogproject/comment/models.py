@@ -4,9 +4,10 @@ from django.db import models
 class Comment(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=255)
-    url = models.URLField(blank=True)
+    url = models.URLField(blank=True)#允许空白
+
     text = models.TextField()
-    crrad_time = models.DateTimeField(auto_now_add=True)#时间自动生成
+    created_time = models.DateTimeField(auto_now_add=True)#时间自动生成
 
     post = models.ForeignKey('blog.Post')
 
