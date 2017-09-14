@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse
-from .models import Post
+from .models import Post,Category
 from comment.forms import CommentForm
 #通用视图
 from django.views.generic import ListView
@@ -39,7 +39,21 @@ def detail(request,pk):
     }
     return render(request,'blog/detail.html',context=context)
 
-def archives(request,year,month):
-    post_list = Post.objects.filter(created_time__year = year,created_time__month = month).order_by('-created_time')
-    # print(post_list)
-    return render(request,'blog/index .html',context={'post_list': post_list})
+class ArchivesViews(IndexView):
+    def get_queryset(self):
+        # 一定要注意created_time__year ：两个下划线
+        return super().get_queryset().filter(
+            created_time__year = self.kwargs.get('year'),
+            created_time__month = self.kwargs.get('month')
+        )
+
+# def archives(request,year,month):
+#     post_list = Post.objects.filter(created_time__year = year,created_time__month = month)
+#     # print(post_list)
+#     return render(request,'blog/index .html',context={'post_list': post_list})
+
+class CategoryView(IndexView):
+    def get_queryset(self):
+        cate = get_object_or_404(Category,pk=self.kwargs.get('pk'))
+        # 下面的filter(category = cate)中的category是post.category
+        return super().get_queryset().filter(category = cate)
