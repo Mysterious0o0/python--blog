@@ -2,6 +2,10 @@ from django.db import models
 from django.urls import reverse
 #User是一个自带的模型类，里面是用户
 from django.contrib.auth.models import User
+from markdown import Markdown
+#除掉标签
+from django.utils.html import strip_tags
+
 #类别
 class Category(models.Model):
     name = models.CharField(max_length=64)
@@ -41,5 +45,18 @@ class Post(models.Model):
     #获取绝对路径
     def get_absolute_url(self):
         return reverse('blog:detail',kwargs={'pk':self.pk})
+
+    def save(self,*args,**kwargs):
+        if not self.excerpt:
+            md = Markdown(extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+            ])
+            # 先将 Markdown 文本渲染成 HTML 文本
+            #  strip_tags 去掉 HTML 文本的全部 HTML 标签
+            self.excerpt = strip_tags(md.convert(self.body))[:32]
+            # 调用父类的 save 方法将数据保存到数据库中
+        super().save(*args,**kwargs)
+
     def __str__(self):
         return self.title
