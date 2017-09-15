@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{%load staticfiles%}
 {%load blog_tags%}
 <html>
 <head>
@@ -107,7 +107,7 @@
                     <ul>
                         {% for category in category_list %}
                         <li>
-                           <a href="{% url 'blog:category' category.pk %}">{{ category.name }} <span class="post-count">(13)</span></a>
+                           <a href="{% url 'blog:category' category.pk %}">{{ category.name }} <span class="post-count">({{category.num_post}})</span></a>
                         </li>
                          {% endfor %}
                     </ul>

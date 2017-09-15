@@ -9,6 +9,7 @@ from django.utils.html import strip_tags
 #类别
 class Category(models.Model):
     name = models.CharField(max_length=64)
+    # annotate产生的隐藏属性
     def __str__(self):
         return self.name
 #标签

@@ -1,6 +1,6 @@
 from django import template
 from ..models import Post,Category
-
+from django.db.models.aggregates import Count
 register = template.Library()##？？？？
 
 #文章按顺序排序
@@ -16,4 +16,4 @@ def archives():
 
 @register.simple_tag
 def get_categories():
-    return Category.objects.all()
+    return Category.objects.annotate(num_post = Count('post')).filter(num_post__gt=0)
