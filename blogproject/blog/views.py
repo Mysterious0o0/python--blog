@@ -22,6 +22,79 @@ class IndexView(ListView):
     #这个名字不能随便取，必须和模板中的变量相同
     context_object_name = 'post_list'
     paginate_by = 2
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     paginator = context.get('paginator')
+    #     page = context.get('page_obj')
+    #     is_paginated = context.get('is_paginated')
+
+    def pagination_data(self,paginator,page,is_paginated):
+        if not is_paginated:
+            return {}
+        first = False              # 首页
+        left_has_more = False      # 省略号
+        left = []                  # 当前页左边的页码
+        page_number = page.number  # 当前页
+        right = []                 # 当前页右边的页码
+        right_has_more = False     # 省略号
+        last = False               # 最后一页
+
+        total_pages = paginator.num_pages# 总页数
+
+        page_range = paginator.page_range# 获取整个分页的列表
+        # 如果当前页为第一页
+        if page_number == 1:
+            right = page_range[page_number:page_number+2]
+            if right[-1]<total_pages-1:
+                right_has_more = True
+            if right[-1]<total_pages:
+                last = True
+        # 如果当前是最后一页
+        elif page_number == total_pages:
+            left = page_range[(page_number-3) if(page_number-3)>0 else 0:page_number-1]
+            if left[0]>2:
+                left_has_more = True
+            if left[0]>1:
+                first = True
+        # 中间页
+        else:
+            left = page_range[(page_number-3) if (page_number-3)>0 else 0:page_number-1]
+            right = page_range[page_number:page_number+2]
+            if right[-1]<total_pages-1:
+                right_has_more = True
+            if right[-1]<total_pages:
+                last = True
+
+            if left[0]>2:
+                left_has_more = True
+            if left[0]>1:
+                first = True
+
+        data = {
+            'left':left,
+            'right':right,
+            'left_has_more':left_has_more,
+            'right_has_more':right_has_more,
+            'first':first,
+            'last':last
+        }
+        return data
+
+    def get_context_data(self,**kwargs):
+        # 首先获取基类get_context_data()返回的context
+        context = super().get_context_data(**kwargs)
+        paginator = context.get('paginator')
+        page = context.get('page_obj')
+        is_paginated = context.get('is_paginated')
+        paginator_data = self.pagination_data(paginator,page,is_paginated)
+
+        context.update(paginator_data)
+        return context
+
+
+
+
+
 
 
 class ArchivesViews(IndexView):
