@@ -29,6 +29,6 @@ def post_comment(request,post_pk):
                 'form': form,
                 'comment_list':comment_list,
             }
-            return render(request,'blog/detail.html',context=context)
+            return render(request,'blog/detail.html',locals())
     # 不是 post 请求，说明用户没有提交数据，重定向到文章详情页。
     return redirect(post)
