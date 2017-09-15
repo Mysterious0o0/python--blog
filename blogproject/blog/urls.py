@@ -1,5 +1,7 @@
 from django.conf.urls import url
 from . import views
+
+
 app_name = 'blog'
 urlpatterns = [
 #regular expression 正则表达式
