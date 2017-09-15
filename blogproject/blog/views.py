@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse
-from .models import Post,Category
+from .models import Post,Category,Tag
 from comment.forms import CommentForm
 #通用视图
 from django.views.generic import ListView,DetailView
@@ -22,11 +22,7 @@ class IndexView(ListView):
     #这个名字不能随便取，必须和模板中的变量相同
     context_object_name = 'post_list'
     paginate_by = 2
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     paginator = context.get('paginator')
-    #     page = context.get('page_obj')
-    #     is_paginated = context.get('is_paginated')
+
 
     def pagination_data(self,paginator,page,is_paginated):
         if not is_paginated:
@@ -165,3 +161,8 @@ class PostDetailView(DetailView):
             'comment_list':comment_list
         })
         return context
+
+class TagView(IndexView):
+    def get_queryset(self):
+        tag = get_object_or_404(Tag,pk=self.kwargs.get('pk'))
+        return super().get_queryset().filter(tage=tag)
