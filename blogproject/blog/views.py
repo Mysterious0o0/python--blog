@@ -5,7 +5,9 @@ from comment.forms import CommentForm
 #通用视图
 from django.views.generic import ListView,DetailView
 # Create your views here.
-import markdown
+from markdown import Markdown
+from django.utils.text import slugify
+from markdown.extensions.toc import TocExtension
 # def index(request):
 #     # return HttpResponse('<h1> hello Django<h1>')
 #     post_list = Post.objects.all().order_by('-created_time')#按时间先后排序，新的在前，把负号去了，就旧的在前.order_by('')按什么排序
@@ -89,10 +91,6 @@ class IndexView(ListView):
 
 
 
-
-
-
-
 class ArchivesViews(IndexView):
     def get_queryset(self):
         # get_queryset()是调用父类的方法，直接返回所有数据
@@ -144,11 +142,13 @@ class PostDetailView(DetailView):
 
     def get_object(self, queryset=None):
         post = super().get_object(queryset)
-        post.body = markdown.markdown(post.body,extensions = [
+        md = Markdown(post.body,extensions = [
                 'markdown.extensions.extra',
                 'markdown.extensions.codehilite',
-                'markdown.extensions.toc',
+                TocExtension(slugify=slugify),
         ])
+        post.body = md.convert(post.body)
+        post.toc = md.toc
         return post
 
     def get_context_data(self, **kwargs):
