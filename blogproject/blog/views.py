@@ -8,6 +8,7 @@ from django.views.generic import ListView,DetailView
 from markdown import Markdown
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
+from django.db.models import Q
 # def index(request):
 #     # return HttpResponse('<h1> hello Django<h1>')
 #     post_list = Post.objects.all().order_by('-created_time')#按时间先后排序，新的在前，把负号去了，就旧的在前.order_by('')按什么排序
@@ -166,3 +167,13 @@ class TagView(IndexView):
     def get_queryset(self):
         tag = get_object_or_404(Tag,pk=self.kwargs.get('pk'))
         return super().get_queryset().filter(tage=tag)
+
+def search(request):
+    q = request.GET.get('q')
+    error_msg = ''
+
+    if not q:
+        error_msg='请输入关键字'
+        return render(request,'blog/index.html',{'error_msg':error_msg})
+    post_list = Post.objects.filter(Q(title__icontains = q)|Q(body__icontains=q))
+    return render(request,'blog/index.html',{'post_list':post_list})
