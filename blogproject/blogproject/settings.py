@@ -137,3 +137,15 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# smtp邮箱协议
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#传输层协议
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.163.com'
+#端口号
+EMAIL_PORT = 25
+# 用户名好=和密码
+EMAIL_HOST_USER = 's489397771@163.com'
+EMAIL_HOST_PASSWORD = 'zitong78187'
+DEFAULT_FROM_EMAIL = 's489397771@163.com'
