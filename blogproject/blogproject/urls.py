@@ -23,6 +23,8 @@ urlpatterns = [
     # url(r'^blog/',include('blog.urls')),#所有blog/urls.py里的路由都有‘blog/’前缀
     url(r'',include('comment.urls')),
     url(r'^all/rss/$',AllPostsRssFeed(),name='rss'),
-    url('^search/',include('haystack.urls'))
+    url(r'^search/',include('haystack.urls')),
+    url(r'^accounts/',include('users.urls')),
+    url(r'^accounts/',include('django.contrib.auth.urls')),
 
 ]

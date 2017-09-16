@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'comment',#注册新创建的应用
-    'haystack'
+    'haystack',
     'users'
 ]
 
@@ -135,4 +135,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
