@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'blog',
     'comment',#注册新创建的应用
     'haystack'
+    'users'
 ]
 
 HAYSTACK_CONNECTIONS={
