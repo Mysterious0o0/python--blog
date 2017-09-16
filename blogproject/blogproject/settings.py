@@ -145,7 +145,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.163.com'
 #端口号
 EMAIL_PORT = 25
-# 用户名好=和密码
-EMAIL_HOST_USER = 's489397771@163.com'
-EMAIL_HOST_PASSWORD = 'ZITONG78187'
-DEFAULT_FROM_EMAIL = 's489397771@163.com'
+# 用户名和密码
+EMAIL_HOST_USER = '*******@163.com'
+EMAIL_HOST_PASSWORD = '***********'#授权码而非密码#
+DEFAULT_FROM_EMAIL = '********@163.com'
